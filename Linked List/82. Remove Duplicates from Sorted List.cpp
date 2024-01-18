@@ -12,21 +12,24 @@ public:
         ListNode* curr = head;
         ListNode* prev = head;
         ListNode* nex = head;
-        while(nex){
-            if(curr -> val == (curr -> next) -> val){
-                nex = curr -> next;
-                while(nex -> val == curr -> val && nex){
-                    nex = nex -> next;
-                }
-                prev -> next = nex;
-                curr = nex;
+        map<int, int> freq;
+        while(curr){
+            freq[curr -> val]++;
+            curr = curr -> next;
+        }
+        curr = head;
+        while(curr){
+            if(freq[curr -> val] > 1){
+                prev -> next = curr -> next;
+                curr = prev -> next;
             }
             else{
-
+                prev = curr;
+                curr = curr -> next;
             }
-            prev = curr;
-            curr = nex;
-            nex = nex -> next;
+        }
+        if(freq[head -> val] > 1){
+            head = head -> next;
         }
         return head;
     }
