@@ -46,6 +46,29 @@ public:
     }
 };
 
+/*--------------------------------------------------------------
+Method 3: Space Optimization
+  Time Complexity: O(n)
+  Space Complexity: O(1)
+----------------------------------------------------------------*/
+
+class Solution {
+public:
+    int rob(vector<int>& nums) {
+        int most_prev = 0;
+        int prev = nums[0], curr;
+        for(int i = 1; i <= nums.size() - 1; i++){
+            int Take = nums[i];
+            if(i - 2 >= 0) Take += most_prev;
+            int noTake = prev;
+            curr = max(Take, noTake);
+            most_prev = prev;
+            prev = curr;
+        }
+        return prev;
+    }
+};
+
 /*
 Question Link: https://leetcode.com/problems/house-robber/
 Author: M.R.Naganathan
