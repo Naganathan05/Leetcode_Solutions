@@ -23,6 +23,29 @@ public:
     }
 };
 
+/*-----------------------------------------------------
+Method 2: Trace Back LIS
+  Time Complexity: O(n * n)
+  Space Complexity: O(n)
+--------------------------------------------------------*/
+
+class Solution {
+public:
+    int lengthOfLIS(vector<int>& nums) {
+        vector<int> dp(nums.size(), 1);
+        int maxi = 0;
+        for(int i = 0; i <= nums.size() - 1; i++){
+            for(int prev = 0; prev < i; prev++){
+                if(nums[prev] < nums[i]){
+                    dp[i] = max(1 + dp[prev], dp[i]);
+                }
+            }
+            maxi = max(maxi, dp[i]);
+        }
+        return maxi;
+    }
+};
+
 /*
 Question Link: https://leetcode.com/problems/longest-increasing-subsequence/description/
 Author: M.R.Naganathan
