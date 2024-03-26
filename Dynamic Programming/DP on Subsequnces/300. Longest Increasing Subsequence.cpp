@@ -24,7 +24,58 @@ public:
 };
 
 /*-----------------------------------------------------
-Method 2: Trace Back LIS
+Method 2: Tabulation
+  Time Complexity: O(n * n)
+  Space Complexity: O(n * n)
+--------------------------------------------------------*/
+
+class Solution {
+public:
+    int lengthOfLIS(vector<int>& nums) {
+        vector<vector<int>> dp(nums.size() + 1, vector<int> (nums.size() + 1, 0));
+
+        for(int i = nums.size() - 1; i >= 0; i--){
+            for(int prevInd = nums.size() - 1; prevInd >= -1; prevInd--){
+                int noTake = dp[i + 1][prevInd + 1];
+                int take = 0;
+                if(prevInd == -1 || nums[prevInd] < nums[i]){
+                    take = 1 + dp[i + 1][i + 1];
+                }
+                dp[i][prevInd + 1] = max(take, noTake); 
+            }
+        }
+        return dp[0][0];
+    }
+};
+
+/*-----------------------------------------------------
+Method 3: Space Optimization
+  Time Complexity: O(n * n)
+  Space Complexity: O(2*n)
+-------------------------------------------------------*/
+
+class Solution {
+public:
+    int lengthOfLIS(vector<int>& nums) {
+        vector<int> curr(nums.size() + 1, 0), prev(nums.size() + 1, 0);
+
+        for(int i = nums.size() - 1; i >= 0; i--){
+            prev = curr;
+            for(int prevInd = nums.size() - 1; prevInd >= -1; prevInd--){
+                int noTake = prev[prevInd + 1];
+                int take = 0;
+                if(prevInd == -1 || nums[prevInd] < nums[i]){
+                    take = 1 + prev[i + 1];
+                }
+                curr[prevInd + 1] = max(take, noTake); 
+            }
+        }
+        return curr[0];
+    }
+};
+
+/*-----------------------------------------------------
+Method 4: Trace Back LIS
   Time Complexity: O(n * n)
   Space Complexity: O(n)
 --------------------------------------------------------*/
@@ -43,6 +94,47 @@ public:
             maxi = max(maxi, dp[i]);
         }
         return maxi;
+    }
+};
+
+/*-----------------------------------------------------------
+Method 5: Binary Search
+  Time Complexity: O(nlogn)
+  Space Complexity: O(n)
+-------------------------------------------------------------*/
+
+class Solution {
+public:
+    int lengthOfLIS(vector<int>& nums) {
+        vector<int> temp;
+        temp.push_back(nums[0]);
+
+        for(int i = 1; i <= nums.size() - 1; i++){
+            if(nums[i] > temp.back()){
+                temp.push_back(nums[i]);
+            }
+            else{
+                int ind = lower_bound(temp, nums[i]);
+                temp[ind] = nums[i];
+            }
+        }
+        return temp.size();
+    }
+
+    int lower_bound(vector<int> &temp, int target){
+        int st = 0, en = temp.size() - 1, mid;
+        int ans;
+        while(st <= en){
+            mid = (st + en)/2;
+            if(temp[mid] >= target){
+                ans = mid;
+                en = mid - 1;
+            }
+            else{
+                st = mid + 1;
+            }
+        }
+        return ans;
     }
 };
 
