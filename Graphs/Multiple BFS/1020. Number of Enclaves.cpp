@@ -60,6 +60,68 @@ public:
     }
 };
 
+/*--------------------------------------
+Method: Multi Source BFS
+  Time Complexity: O(m * n)
+  Space Complexity: O(m * n)
+---------------------------------------*/
+
+class Solution {
+public:
+    void BFS(vector<vector<int>> &grid, queue<pair<int, int>> &q, vector<vector<bool>> &visited){
+        while(!q.empty()){
+            auto land = q.front();
+            int i = land.first;
+            int j = land.second;
+            q.pop();
+
+            if(i + 1 < grid.size() && grid[i + 1][j] == 1 && !visited[i + 1][j]){
+                q.push({i + 1, j});
+                visited[i + 1][j] = true;
+            }
+            if(j + 1 < grid[0].size() && grid[i][j + 1] == 1 && !visited[i][j + 1]){
+                q.push({i, j + 1});
+                visited[i][j + 1] = true;
+            }
+            if(i - 1 >= 0 && grid[i - 1][j] == 1 && !visited[i - 1][j]){
+                q.push({i - 1, j});
+                visited[i - 1][j] = true;
+            }
+            if(j - 1 >= 0 && grid[i][j - 1] == 1 && !visited[i][j - 1]){
+                q.push({i, j - 1}); 
+                visited[i][j - 1] = true;
+            }
+        }
+        return;
+    }
+
+    int numEnclaves(vector<vector<int>>& grid) {
+        int lockedLand = 0;
+        vector<vector<bool>> visited(grid.size(), vector<bool> (grid[0].size(), false));
+        queue<pair<int, int>> fifo;
+
+        for (int i = 0; i < grid.size(); ++i) {
+            for (int j = 0; j < grid[0].size(); ++j) {
+                if ((i == 0 || j == 0 || i == grid.size() - 1 || j == grid[0].size() - 1) && grid[i][j] == 1 && !visited[i][j]) {
+                    fifo.push({i, j});
+                    visited[i][j] = true;
+                }
+            }
+        }
+        BFS(grid, fifo, visited);
+
+        for (int i = 0; i < grid.size(); ++i) {
+            for (int j = 0; j < grid[0].size(); ++j) {
+                if (grid[i][j] == 1 && !visited[i][j]) {
+                    lockedLand += 1;
+                }
+            }
+        }
+
+        return lockedLand;
+    }
+};
+
 /*--------------------------------------------
 Method: Depth First Search - [DFS]
   Time Complexity: O(m * n)
