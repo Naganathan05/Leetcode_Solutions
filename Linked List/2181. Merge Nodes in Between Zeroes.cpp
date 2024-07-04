@@ -7,33 +7,22 @@ class Solution {
 public:
     ListNode* mergeNodes(ListNode* head) {
         ListNode *curr = head;
-        ListNode *newhead = NULL;
-        ListNode *newcurr = newhead;
-        int sum = 0, cnt = 0;
+        ListNode* newcurr = head;
+        ListNode* prev = head;
+        curr = curr -> next;
         while(curr){
-            if(curr -> val == 0){
-                cnt += 1;
+            int sum = 0;
+            while(curr -> val != 0){
+                sum += (curr -> val);
+                curr = curr -> next;
             }
-
-            if(cnt != 2){
-                sum += curr -> val;
-            }
-            else{
-                cnt = 1;
-                ListNode *newNode = new ListNode(sum);
-                if(newcurr != NULL){
-                    newcurr -> next = newNode;
-                    newcurr = newNode;
-                }
-                else{
-                    newcurr = newNode;
-                    newhead = newNode;
-                }
-                sum = 0;
-            }
+            newcurr -> val = sum;
+            prev = newcurr;
+            newcurr = newcurr -> next;
             curr = curr -> next;
         }
-        return newhead;
+        prev -> next = NULL;
+        return head;
     }
 };
 
