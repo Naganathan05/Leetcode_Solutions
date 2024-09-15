@@ -6,21 +6,30 @@
 class Solution {
 public:
     string removeOccurrences(string s, string part) {
-        int f = 1;
-        while(f){
-            f = 0;
-            for(int i = 0; i <= s.size() - 1; i++){
-                int j = 0;
-                while(j <= part.size() - 1 && part[j] == s[i + j] && (j + i) <= s.size() - 1){
-                    j += 1;
+        stack<char> st;
+        for(char c : s) {
+            st.push(c);
+            if(st.size() >= part.length() && st.top() == part.back()) {
+                string temp = "";
+                for(int i = 0; i < part.length(); i++) {
+                    temp += st.top();
+                    st.pop();
                 }
-                if(j == part.size()){
-                    f = 1;
-                    s = s.substr(0, i) + s.substr(i + j, s.size() - j);
+                reverse(temp.begin(), temp.end());
+                if(temp != part) {
+                    for(char c : temp) {
+                        st.push(c);
+                    }
                 }
             }
         }
-        return s;
+        string ans = "";
+        while(!st.empty()) {
+            ans += st.top();
+            st.pop();
+        }
+        reverse(ans.begin(), ans.end());
+        return ans;
     }
 };
 
