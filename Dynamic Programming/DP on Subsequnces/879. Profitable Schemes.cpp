@@ -25,6 +25,6 @@ public:
 };
 
 /*
-Question Link: https://leetcode.com/problems/shopping-offers/description/
+Question Link: https://leetcode.com/problems/profitable-schemes/description/
 Author: M.R.Naganathan
 */
