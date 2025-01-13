@@ -28,6 +28,33 @@ public:
     }
 };
 
+/*--------------------------
+  Time Complexity: O(n)
+  Space Complexity: O(h)
+-----------------------------*/
+
+class Solution {
+public:
+    void DFS(TreeNode* root, int currHeight, int &treeHeight, int &leavesSum){
+        if(!root) return;
+        if(currHeight > treeHeight){
+            treeHeight = currHeight;
+            leavesSum = 0;
+        }
+
+        if(currHeight == treeHeight) leavesSum += root -> val;
+        DFS(root -> left, currHeight + 1, treeHeight, leavesSum);
+        DFS(root -> right, currHeight + 1, treeHeight, leavesSum);
+        return;
+    }
+
+    int deepestLeavesSum(TreeNode* root) {
+        int treeHeight = 0, leavesSum = 0;
+        DFS(root, 1, treeHeight, leavesSum);
+        return leavesSum;
+    }
+};
+
 /*
 Question Link: https://leetcode.com/problems/deepest-leaves-sum/
 Author: M.R.Naganathan
