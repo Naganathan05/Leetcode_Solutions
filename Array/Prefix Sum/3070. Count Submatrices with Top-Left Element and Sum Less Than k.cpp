@@ -1,3 +1,29 @@
+/*---------------------------
+  Time Complexity: O(n * m)
+  Space Complexity: O(m)
+-----------------------------*/
+
+class Solution {
+public:
+    int countSubmatrices(vector<vector<int>>& grid, int k) {
+        int n = grid.size();
+        int m = grid[0].size();
+        
+        int numSubMatrices = 0;
+        vector<long long> prevRowPrefixSum(m, 0);
+        for(int i = 0; i < n; i++) {
+            long long currRowSum = 0;
+            for(int j = 0; j < m; j++) {
+                currRowSum += grid[i][j];
+                prevRowPrefixSum[j] += currRowSum;
+                if(prevRowPrefixSum[j] > k) break;
+                numSubMatrices += 1;
+            }
+        }
+        return numSubMatrices;
+    }
+};
+
 /*----------------------------
   Time Complexity: O(n * m)
   Space Complexity: O(n * m)
