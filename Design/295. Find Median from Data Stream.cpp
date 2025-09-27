@@ -1,8 +1,8 @@
-/*--------------------------------------
+/*---------------------------------------
 Data Structures Used: (Priority Queue)
   Time Complexity: O(logn), O(logn)
   Space Complexity: O(n)
-----------------------------------------*/
+-----------------------------------------*/
 
 class MedianFinder {
 public:
